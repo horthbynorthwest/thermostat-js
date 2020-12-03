@@ -76,4 +76,31 @@ describe('thermostat', () => {
       expect(thermostat.getCurrentTemp()).toEqual(32);
     });
   });
+
+  describe('displaying useage levels', () => {
+    describe('when the temp is below 18', () => {
+      it('it is considered low useage', () =>{
+        for (var i = 0; i < 3; i++) {
+          thermostat.down();
+        }
+        expect(thermostat.energyUseage()).toEqual('low-useage');
+      });
+    });
+
+    describe('when temp is between 18 & 25', () => {
+      it('is considered medium useage', () => {
+        expect(thermostat.energyUseage()).toEqual('medium-useage');
+      });
+    });
+
+    describe('when temp is above 25', () => {
+      it('is considered high useage', () => {
+        thermostat.powerSavingMode = false;
+        for (var i = 0; i < 6; i++) {
+          thermostat.up();
+        }
+        expect(thermostat.energyUseage()).toEqual('high-useage');
+      });
+    });
+  });
 });

@@ -14,18 +14,18 @@ describe('thermostat', () => {
     });
 
     it('temp increases by 1 when user clicks increase', () => {
-      thermostat.increaseTemp();
+      thermostat.up();
       expect(thermostat.getCurrentTemp()).toEqual(21)
     });
 
     it('temp decreases by 1 when user click decrease', () => {
-      thermostat.descreaseTemp();
+      thermostat.down();
       expect(thermostat.getCurrentTemp()).toEqual(19)
     });
 
     it('minimum temp is 10', () => {
       for (var i = 0; i < 11; i++) {
-        thermostat.descreaseTemp();
+        thermostat.down();
       }
       expect(thermostat.getCurrentTemp()).toEqual(10);
     });
@@ -48,12 +48,21 @@ describe('thermostat', () => {
       thermostat.switchPowerSavingModeOn();
       expect(thermostat.isPowerSavingModeOn()).toBe(true);
     });
+
+    it('can reset to defaul temp', () => {
+      for (var i = 0; i < 6; i++ ) {
+        thermostat.up();
+      }
+      expect(thermostat.getCurrentTemp()).toEqual(25);
+      thermostat.resetTemp();
+      expect(thermostat.getCurrentTemp()).toEqual(20);
+    });
   });
 
   describe('when power saving mode is on', () => {
     it('has a max temp of 25', () => {
       for (var i = 0; i < 6; i++ ) {
-        thermostat.increaseTemp();
+        thermostat.up();
       }
       expect(thermostat.getCurrentTemp()).toEqual(25);
     });
@@ -62,7 +71,7 @@ describe('thermostat', () => {
     it('has a maximum temperature of 32 degrees', function() {
       thermostat.switchPowerSavingModeOff();
       for (var i = 0; i < 13; i++) {
-        thermostat.increaseTemp();
+        thermostat.up();
       }
       expect(thermostat.getCurrentTemp()).toEqual(32);
     });
